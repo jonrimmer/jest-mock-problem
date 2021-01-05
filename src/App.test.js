@@ -1,8 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+Object.defineProperty(window, 'ResizeObserver', {
+  writable: true,
+  value: jest.fn().mockImplementation(() => ({
+    observe: jest.fn(() => 'Mocking works'),
+    unobserve: jest.fn(),
+    disconnect: jest.fn(),
+  })),
+});
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Works
+console.log(new ResizeObserver().observe());
+
+// Broken
+test('mocking works', () => {
+  console.log(new ResizeObserver().observe());
 });
